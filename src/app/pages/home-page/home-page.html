@@ -1,0 +1,38 @@
+<main class="min-h-dvh mx-auto flex flex-col bg-linear-to-b from-white to-gray-50 text-gray-700 antialiased">
+  <div class="grow space-y-12">
+
+    <div class="container mx-auto py-8 px-4">
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+
+        @if (cv()?.profile) {
+          <app-presentation [profile]="cv()!.profile"></app-presentation>
+        }
+
+        @if (cv()?.profile?.summary) {
+          <app-summary [summary]="cv()!.profile!.summary"></app-summary>
+        }
+
+        @if (cv()?.profile?.contact) {
+          <app-contact [contact]="cv()!.profile!.contact"></app-contact>
+        }
+
+        @if (cv()?.skills?.length) {
+          <app-skills [skills]="cv()!.skills"></app-skills>
+        }
+
+        @if (cv()?.experience?.length) {
+          <app-experience [experience]="cv()!.experience"></app-experience>
+        }
+
+        @if (cv()?.education?.length) {
+          <app-education [education]="cv()!.education"></app-education>
+        }
+
+        @if (cv()?.profile) {
+          <app-additional [profile]="cv()!.profile"></app-additional>
+        }
+
+      </div>
+    </div>
+  </div>
+</main>

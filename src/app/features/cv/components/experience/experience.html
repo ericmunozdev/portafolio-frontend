@@ -1,7 +1,18 @@
 <h2 class="text-xl font-semibold mt-4 mb-2">EXPERIENCIA PROFESIONAL</h2>
 
-<div class="mb-4">
-  <h3 class="text-lg font-semibold">Desarrollador - Consalud (Jun 2024 - Mar 2026)</h3>
+@for (job of experience(); track job) {
+  <div class="mb-4">
+    <h3 class="text-lg font-semibold"> {{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
+    <ul class="list-disc list-inside text-gray-700">
+      @for (responsibility of job.responsibilities; track responsibility) {
+        <li>{{ responsibility }}</li>
+      }
+    </ul>
+  </div>
+}
+
+<!-- <div class="mb-4">
+  <h3 class="text-lg font-semibold"> Desarrollador - Consalud (Jun 2024 - Mar 2026)</h3>
   <ul class="list-disc list-inside text-gray-700">
     <li>Desarrollo y mantenimiento de aplicaciones empresariales en .NET 6 MVC.</li>
     <li>Implementación de servicios RESTful y mejoras de rendimiento en sistemas productivos.</li>
@@ -36,4 +47,4 @@
     <li>Ingeniero de Software y Analista Programador en BancoEstado Cobranzas, ChileCompra, DBNeT y otras organizaciones.</li>
     <li>Participación en desarrollo de sistemas empresariales, gestión de bases de datos y mantenimiento de plataformas críticas.</li>
   </ul>
-</div>
+</div> -->

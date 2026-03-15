@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-summary',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './summary.html',
   styleUrl: './summary.css',
 })
-export class Summary {}
+export class Summary {
+  summary = input.required<string[]>();
+}
