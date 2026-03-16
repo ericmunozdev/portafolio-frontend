@@ -1,3 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+body {
+  @apply bg-gray-100 text-gray-700 antialiased;
+}
+
+@layer components {
+  .section-title {
+    @apply text-xl font-semibold border-b border-gray-200 pb-2 mt-8 mb-4 tracking-wide;
+  }
+
+  .section-subtitle {
+    @apply text-lg font-medium text-gray-700;
+  }
+
+  .section-meta {
+    @apply text-base text-gray-700;
+  }
+
+  .section-text {
+    @apply text-sm text-gray-700 leading-relaxed;
+  }
+
+  .section-list {
+    @apply list-disc list-inside text-sm text-gray-500 space-y-1 mt-2;
+  }
+
+  .section-sublist {
+    @apply list-item list-inside text-sm text-gray-500 space-y-1 mt-1 mb-2 pl-10 ;
+  }
+}

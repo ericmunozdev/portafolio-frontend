@@ -1,6 +1,6 @@
-<h2 class="text-xl font-semibold mt-4 mb-2">Contact</h2>
-<ul class="list-disc list-inside text-gray-700">
-  <li>Email: {{ contact().email }}</li>
-  <li>LinkedIn: <a href="{{ contact().linkedin }}" class="text-blue-500 hover:underline">{{contact().linkedin}}</a></li>
-  <li>Phone Number: <a href="tel:{{ contact().phone }}" class="text-blue-500 hover:underline">{{ contact().phone }}</a></li>
+<h2 class="section-title">Contacto</h2>
+<ul class="section-list">
+  <li class="section-text">Email: {{ contact().email }}</li>
+  <li class="section-text">LinkedIn: <a href="{{ contact().linkedin }}" class="text-blue-600 hover:text-blue-800 underline">{{contact().linkedin}}</a></li>
+  <li class="section-text">Phone Number: <a href="tel:{{ contact().phone }}" class="text-blue-600 hover:text-blue-800 underline">{{ contact().phone }}</a></li>
 </ul>

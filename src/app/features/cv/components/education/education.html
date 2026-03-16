@@ -1,6 +1,6 @@
-<h2 class="text-xl font-semibold mt-4 mb-2">FORMACIÓN ACADÉMICA</h2>
+<h2 class="section-title">Formación Académica</h2>
 <div class="mb-4">
-  <p class="text-gray-700">Scrum Máster Professional Certifícate (SMPC) - CertiProf (2019).</p>
-  <p class="text-gray-700">Ingeniero en Informática - DUOC UC (Titulado 2015).</p>
-  <p class="text-gray-700">Analista Programador Computacional - DUOC UC (Titulado 2008).</p>
+  @for (item of education(); track $index) {
+    <p class="section-text">{{item.title}} - {{item.institution}} ({{item.year}}).</p>
+  }
 </div>

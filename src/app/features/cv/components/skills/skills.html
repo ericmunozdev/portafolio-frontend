@@ -1,5 +1,5 @@
-<h2 class="text-xl font-semibold mt-4 mb-2">COMPETENCIAS TÉCNICAS</h2>
-<ul class="list-disc list-inside text-gray-700">
+<h2 class="section-title">Competencias Técnicas</h2>
+<ul class="section-list">
   @for (skill of skills(); track skill) {
     <li><strong>{{ skill.category }}:</strong> {{ skill.items.join(', ') }}</li>
   }

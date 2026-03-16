@@ -1,7 +1,7 @@
-<h2 class="text-xl font-semibold mt-4 mb-2">Información Adicional</h2>
-<ul class="list-disc list-inside text-gray-700">
-  <li>Idioma:
-    <ul>
+<h2 class="section-title">Información Adicional</h2>
+<ul class="section-list">
+  <li>Idioma{{ profile()!.languages.length > 1 ? 's' : '' }}:
+    <ul class="section-sublist">
       @for (language of profile()!.languages; track $index) {
         <li>{{ language.language }} {{ language.level }} - {{ language.description }}</li>
       }

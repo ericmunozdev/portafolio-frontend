@@ -1,9 +1,9 @@
-<main class="min-h-dvh mx-auto flex flex-col bg-linear-to-b from-white to-gray-50 text-gray-700 antialiased">
+<main
+  class="min-h-dvh mx-auto flex flex-col bg-linear-to-b from-white to-gray-50 text-gray-700 antialiased"
+>
   <div class="grow space-y-12">
-
-    <div class="container mx-auto py-8 px-4">
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-
+    <div class="">
+      <div class="max-w-3xl mx-auto px-8 py-10 bg-white shadow-sm">
         @if (cv()?.profile) {
           <app-presentation [profile]="cv()!.profile"></app-presentation>
         }
@@ -31,7 +31,6 @@
         @if (cv()?.profile) {
           <app-additional [profile]="cv()!.profile"></app-additional>
         }
-
       </div>
     </div>
   </div>

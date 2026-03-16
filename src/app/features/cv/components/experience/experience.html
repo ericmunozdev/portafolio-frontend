@@ -1,50 +1,12 @@
-<h2 class="text-xl font-semibold mt-4 mb-2">EXPERIENCIA PROFESIONAL</h2>
+<h2 class="section-title">Experiencia Profesional</h2>
 
 @for (job of experience(); track job) {
   <div class="mb-4">
-    <h3 class="text-lg font-semibold"> {{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
-    <ul class="list-disc list-inside text-gray-700">
+    <h3 class="section-meta"> {{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
+    <ul class="section-list">
       @for (responsibility of job.responsibilities; track responsibility) {
         <li>{{ responsibility }}</li>
       }
     </ul>
   </div>
 }
-
-<!-- <div class="mb-4">
-  <h3 class="text-lg font-semibold"> Desarrollador - Consalud (Jun 2024 - Mar 2026)</h3>
-  <ul class="list-disc list-inside text-gray-700">
-    <li>Desarrollo y mantenimiento de aplicaciones empresariales en .NET 6 MVC.</li>
-    <li>Implementación de servicios RESTful y mejoras de rendimiento en sistemas productivos.</li>
-    <li>Creación de pruebas unitarias automatizadas, asegurando estabilidad en despliegues.</li>
-    <li>Trabajo colaborativo bajo Azure DevOps y control de versiones con Git.</li>
-  </ul>
-</div>
-
-<div class="mb-4">
-  <h3 class="text-lg font-semibold">Ingeniero de Software - Carlos Cramer Productos Aromáticos S.A. (Dic 2022 - Jun 2024)</h3>
-  <ul class="list-disc list-inside text-gray-700">
-    <li>Desarrollo de aplicaciones para la gestión de procesos de fabricación industrial.</li>
-    <li>Implementación de recálculos masivos a gran escala utilizando multithreading.</li>
-    <li>Participación en testing, despliegues productivos y mejora continua.</li>
-    <li>Uso de arquitecturas modernas y prácticas DDD.</li>
-  </ul>
-</div>
-
-<div class="mb-4">
-  <h3 class="text-lg font-semibold">Ingeniero de Proyectos - Superintendencia del Medio Ambiente (SMA) (Ene 2017 - Nov 2022)</h3>
-  <ul class="list-disc list-inside text-gray-700">
-    <li>Desarrollo de sistemas nacionales de fiscalización ambiental y plataformas ciudadanas.</li>
-    <li>Creación y mantenimiento de APIs REST y microservicios.</li>
-    <li>Liderazgo técnico en equipos ágiles bajo Scrum.</li>
-    <li>Implementación de CI/CD, pruebas automatizadas y despliegues en producción.</li>
-  </ul>
-</div>
-
-<div class="mb-4">
-  <h3 class="text-lg font-semibold">Experiencia previa relevante (2008 - 2016)</h3>
-  <ul class="list-disc list-inside text-gray-700">
-    <li>Ingeniero de Software y Analista Programador en BancoEstado Cobranzas, ChileCompra, DBNeT y otras organizaciones.</li>
-    <li>Participación en desarrollo de sistemas empresariales, gestión de bases de datos y mantenimiento de plataformas críticas.</li>
-  </ul>
-</div> -->
