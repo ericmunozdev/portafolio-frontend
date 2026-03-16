@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "portafoliocv": {
+    "portafolio-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "portafoliocv:build:production"
+              "buildTarget": "portafolio-frontend:build:production"
             },
             "development": {
-              "buildTarget": "portafoliocv:build:development"
+              "buildTarget": "portafolio-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
