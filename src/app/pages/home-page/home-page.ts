@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { Additional } from '../../features/cv/components/additional/additional';
 import { Contact } from '../../features/cv/components/contact/contact';
@@ -25,5 +26,18 @@ import { CVService } from '../../features/cv/services/cv.service';
 })
 export class HomePage {
   private cvService = inject(CVService);
+  private titleService = inject(Title);
+
   cv = this.cvService.cv;
+
+  constructor() {
+    effect(() => {
+      const cv = this.cv();
+
+      if (cv) {
+        const title = `${cv.profile.title}`;
+        this.titleService.setTitle(title);
+      }
+    });
+  }
 }

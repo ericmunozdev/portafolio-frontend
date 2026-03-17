@@ -2,10 +2,10 @@
 
 @for (job of experience(); track job) {
   <div class="mb-4">
-    <h3 class="section-meta"> {{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
+    <h3 class="section-meta">{{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
     <ul class="section-list">
       @for (responsibility of job.responsibilities; track responsibility) {
-        <li>{{ responsibility }}</li>
+        <li>{{ responsibility }}.</li>
       }
     </ul>
   </div>

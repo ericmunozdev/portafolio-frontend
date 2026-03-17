@@ -1,6 +1,6 @@
 <h2 class="section-title">Formación Académica</h2>
-<div class="mb-4">
+<ul class="section-listnone">
   @for (item of education(); track $index) {
-    <p class="section-text">{{item.title}} - {{item.institution}} ({{item.year}}).</p>
+    <li class="section-text">{{item.title}} - {{item.institution}} ({{item.year}}).</li>
   }
-</div>
+</ul>

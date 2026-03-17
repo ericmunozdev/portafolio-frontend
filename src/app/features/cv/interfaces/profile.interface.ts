@@ -1,7 +1,8 @@
 export interface iProfile {
   image: string;
-  name: string;
   title: string;
+  fullName: string;
+  description: string;
   summary: string[];
   contact: iContact;
   condition: iCondition;

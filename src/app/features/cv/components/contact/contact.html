@@ -1,6 +1,12 @@
 <h2 class="section-title">Contacto</h2>
-<ul class="section-list">
-  <li class="section-text">Email: {{ contact().email }}</li>
-  <li class="section-text">LinkedIn: <a href="{{ contact().linkedin }}" class="text-blue-600 hover:text-blue-800 underline">{{contact().linkedin}}</a></li>
-  <li class="section-text">Phone Number: <a href="tel:{{ contact().phone }}" class="text-blue-600 hover:text-blue-800 underline">{{ contact().phone }}</a></li>
+<ul class="section-listnone">
+  <li class="section-text">
+    Correo: <a href="mailto:{{ contact().email }}" class="link">{{contact().email}}</a>
+  </li>
+  <li class="section-text">
+    Teléfono: <a href="tel:{{ contact().phone }}" class="link">{{contact().phone}}</a>
+  </li>
+  <li class="section-text">
+    LinkedIn: <a href="{{ contact().linkedin }}" class="link" target="_blank">{{contact().linkedin}}</a>
+  </li>
 </ul>

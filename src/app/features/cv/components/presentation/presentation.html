@@ -1,3 +1,20 @@
-<h1 class="text-3xl font-bold tracking-tight">{{ profile().name }}</h1>
-<p class="text-gray-700 text-base mt-1">{{ profile().title }}</p>
+<div class="flex items-center gap-4">
+
+  <img
+    src="assets/images/profile.png"
+    class="h-24 w-24 object-cover rounded-full"
+    alt="Profile">
+
+  <div>
+    <h1 class="text-3xl font-bold tracking-tight">
+      {{ profile().fullName }}
+    </h1>
+
+    <p class="text-gray-700 text-base mt-1">
+      {{ profile().description }}
+    </p>
+  </div>
+
+</div>
+
 <hr class="my-6">

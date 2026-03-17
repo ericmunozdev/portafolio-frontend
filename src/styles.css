@@ -23,11 +23,19 @@ body {
     @apply text-sm text-gray-700 leading-relaxed;
   }
 
+  .section-listnone {
+    @apply list-none list-inside text-sm text-gray-500 space-y-1 mt-2;
+  }
+
   .section-list {
     @apply list-disc list-inside text-sm text-gray-500 space-y-1 mt-2;
   }
 
   .section-sublist {
-    @apply list-item list-inside text-sm text-gray-500 space-y-1 mt-1 mb-2 pl-10 ;
+    @apply list-item list-inside text-sm text-gray-500 space-y-1 mt-1 mb-2 pl-5;
+  }
+
+  .link {
+    @apply text-blue-600 hover:text-blue-800 underline;
   }
 }
