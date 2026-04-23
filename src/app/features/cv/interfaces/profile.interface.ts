@@ -13,6 +13,7 @@ export interface iContact {
   email: string;
   phone: string;
   linkedin: string;
+  github: string;
 }
 
 export interface iCondition {
