@@ -16,19 +16,23 @@ body {
   }
 
   .section-meta {
-    @apply text-base text-gray-700;
+    @apply text-base font-semibold text-gray-700;
   }
 
   .section-text {
     @apply text-sm text-gray-700 leading-relaxed;
   }
 
+  .section-textsoft {
+    @apply text-sm text-gray-500 leading-relaxed;
+  }
+
   .section-listnone {
-    @apply list-none list-inside text-sm text-gray-500 space-y-1 mt-2;
+    @apply list-none list-inside text-sm text-gray-500 space-y-1 mt-1;
   }
 
   .section-list {
-    @apply list-disc list-inside text-sm text-gray-500 space-y-1 mt-2;
+    @apply list-disc list-inside text-sm text-gray-500 space-y-1 mt-1;
   }
 
   .section-sublist {
