@@ -4,4 +4,5 @@ export interface iExperience {
   startDate: string;
   endDate: string;
   responsibilities: string[];
+  skills: string[];
 }
