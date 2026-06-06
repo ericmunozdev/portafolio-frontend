@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iProfile } from '../../interfaces/profile.interface';
+import { iAdditional } from '../../interfaces/additional.interface';
 
 @Component({
   selector: 'app-additional',
@@ -8,5 +8,5 @@ import { iProfile } from '../../interfaces/profile.interface';
   styleUrl: './additional.css',
 })
 export class Additional {
-  profile = input.required<iProfile>();
+  additional = input.required<iAdditional[]>();
 }

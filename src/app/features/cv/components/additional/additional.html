@@ -1,12 +1,13 @@
-<h2 class="section-title">Información Adicional</h2>
-<ul class="section-listnone">
-  <li class="section-text">Idioma{{ profile()!.languages.length > 1 ? 's' : '' }}:
-    <ul class="section-sublist">
-      @for (language of profile()!.languages; track $index) {
-        <li>{{ language.language }} {{ language.level }} - {{ language.description }}.</li>
-      }
-    </ul>
-  </li>
-  <li class="section-text">Modalidad: {{profile().condition.workMode }}.</li>
-  <li class="section-text">Disponibilidad: {{profile().condition.availability }}</li>
-</ul>
+<div class="mt-5">
+  <!-- Texto -->
+  <ul class="section-listnone">
+    @for (additional of additional(); track $index) {
+      <li class="section-text">
+        {{ additional.description }}
+        <p class="section-textsoft">
+          <span class="underline decoration-solid">Tecnologías:</span> {{ additional.skills.join(', ') }}.
+        </p>
+      </li>
+    }
+  </ul>
+</div>

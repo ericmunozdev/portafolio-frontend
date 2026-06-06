@@ -2,11 +2,11 @@ import { Component, input } from '@angular/core';
 import { iProfile } from '../../interfaces/profile.interface';
 
 @Component({
-  selector: 'app-presentation',
+  selector: 'app-profile',
   imports: [],
-  templateUrl: './presentation.html',
-  styleUrl: './presentation.css',
+  templateUrl: './profile.html',
+  styleUrl: './profile.css',
 })
-export class Presentation {
+export class Profile {
   profile = input.required<iProfile>();
 }

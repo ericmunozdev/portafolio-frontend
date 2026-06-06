@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iContact } from '../../interfaces/profile.interface';
+import { iContact } from '../../interfaces/contact.interface';
 
 @Component({
   selector: 'app-contact',
@@ -8,5 +8,5 @@ import { iContact } from '../../interfaces/profile.interface';
   styleUrl: './contact.css',
 })
 export class Contact {
-  contact = input.required<iContact>();
+  contact = input.required<iContact[]>();
 }

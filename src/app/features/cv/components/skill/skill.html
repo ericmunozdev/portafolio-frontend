@@ -1,0 +1,9 @@
+<h2 class="section-title">Competencias Técnicas</h2>
+
+<ul class="section-listnone">
+  @for (skill of skill(); track $index) {
+    <li class="section-text"><strong>{{ skill.category }}:</strong>
+      {{ skill.items.sort((a, b) => a.localeCompare(b)).join(', ') }}.
+    </li>
+  }
+</ul>
