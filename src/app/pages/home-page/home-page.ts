@@ -1,25 +1,30 @@
 import { Component, inject, effect } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import { Additional } from '../../features/cv/components/additional/additional';
-import { Contact } from '../../features/cv/components/contact/contact';
-import { Education } from '../../features/cv/components/education/education';
-import { Experience } from '../../features/cv/components/experience/experience';
-import { Presentation } from '../../features/cv/components/presentation/presentation';
-import { Skills } from '../../features/cv/components/skills/skills';
-import { Summary } from '../../features/cv/components/summary/summary';
 import { CVService } from '../../features/cv/services/cv.service';
+
+import { Additional } from 'src/app/features/cv/components/additional/additional';
+import { Condition } from 'src/app/features/cv/components/condition/condition';
+import { Contact } from 'src/app/features/cv/components/contact/contact';
+import { Education } from 'src/app/features/cv/components/education/education';
+import { Experience } from 'src/app/features/cv/components/experience/experience';
+import { Language } from 'src/app/features/cv/components/language/language';
+import { Profile } from 'src/app/features/cv/components/profile/profile';
+import { Skill } from 'src/app/features/cv/components/skill/skill';
+import { Summary } from 'src/app/features/cv/components/summary/summary';
 
 @Component({
   selector: 'app-home-page',
   imports: [
     Additional,
+    Condition,
     Contact,
     Education,
     Experience,
-    Presentation,
-    Skills,
-    Summary
+    Language,
+    Profile,
+    Skill,
+    Summary,
   ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
