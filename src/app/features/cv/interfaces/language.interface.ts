@@ -1,5 +1,5 @@
 export interface iLanguage {
-  language: string;
+  name: string;
   level: string;
   description: string;
 }
