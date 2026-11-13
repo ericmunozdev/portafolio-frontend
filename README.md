@@ -1,59 +1,74 @@
-# portafolio-frontend
+# Portafolio Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Aplicación web que presenta un currículum profesional de forma dinámica. Está construida con Angular y Tailwind CSS, y toma toda su información desde un archivo JSON local, por lo que no requiere backend.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 20.19+ o 22.12+
+- npm 11+
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Instalación
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Servidor de desarrollo
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+La aplicación estará disponible en `http://localhost:4200/` y se recargará automáticamente al modificar los archivos fuente.
 
-To build the project run:
+## Build
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Los artefactos de producción se generan en `dist/portafolio-frontend/browser`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Pruebas
 
 ```bash
-ng test
+npm test
 ```
 
-## Running end-to-end tests
+## Estructura del proyecto
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```text
+src/
+  app/
+    features/cv/
+      components/   Componentes de cada sección del CV
+      interfaces/   Tipos del modelo de datos
+      services/     Carga del JSON del CV
+      utils/        Utilidades compartidas
+    pages/
+      home-page/    Página principal
+  public/
+    _headers        Cabeceras de seguridad para el hosting
+    assets/
+      data/cv.json  Contenido del currículum
+      images/       Imágenes
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Datos del currículum
 
-## Additional Resources
+El contenido se obtiene desde `public/assets/data/cv.json` al iniciar la aplicación. Las secciones disponibles son:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `profile`: datos generales y presentación.
+- `contact`: medios de contacto.
+- `education`: formación académica.
+- `categorySkill`: competencias técnicas agrupadas por categoría.
+- `experience`: experiencia profesional.
+- `projectSkill`: proyectos y tecnologías utilizadas.
+- `additionalSkill`: conocimientos adicionales.
+- `other`: información complementaria.
+
+Para actualizar el contenido, basta con editar ese archivo respetando las interfaces definidas en `src/app/features/cv/interfaces`.
+
+## Despliegue
+
+El archivo `public/_headers` define cabeceras de seguridad y se copia automáticamente a la raíz del build. Es compatible con hostings estáticos que soportan este formato, como Cloudflare Pages o Netlify.
