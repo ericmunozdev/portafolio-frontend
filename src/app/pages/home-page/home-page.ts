@@ -3,29 +3,18 @@ import { Title } from '@angular/platform-browser';
 
 import { CVService } from '../../features/cv/services/cv.service';
 
-import { Additional } from 'src/app/features/cv/components/additional/additional';
-import { Condition } from 'src/app/features/cv/components/condition/condition';
+import { AdditionalSkill } from 'src/app/features/cv/components/additional-skill/additional-skill';
 import { Contact } from 'src/app/features/cv/components/contact/contact';
 import { Education } from 'src/app/features/cv/components/education/education';
 import { Experience } from 'src/app/features/cv/components/experience/experience';
-import { Language } from 'src/app/features/cv/components/language/language';
+import { Other } from 'src/app/features/cv/components/other/other';
 import { Profile } from 'src/app/features/cv/components/profile/profile';
+import { ProjectSkill } from 'src/app/features/cv/components/project-skill/project-skill';
 import { Skill } from 'src/app/features/cv/components/skill/skill';
-import { Summary } from 'src/app/features/cv/components/summary/summary';
 
 @Component({
   selector: 'app-home-page',
-  imports: [
-    Additional,
-    Condition,
-    Contact,
-    Education,
-    Experience,
-    Language,
-    Profile,
-    Skill,
-    Summary,
-  ],
+  imports: [AdditionalSkill, Contact, Education, Experience, Other, Profile, ProjectSkill, Skill],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })
@@ -40,8 +29,7 @@ export class HomePage {
       const cv = this.cv();
 
       if (cv) {
-        const title = `${cv.profile.title}`;
-        this.titleService.setTitle(title);
+        this.titleService.setTitle(cv.profile.webTitle);
       }
     });
   }

@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
-import { iSkill } from '../../interfaces/skill.interface';
+import { iCategorySkill } from '../../interfaces/categorySkill.interface';
+import { formatSkills } from '../../utils/skill.utils';
 
 @Component({
   selector: 'app-skill',
@@ -8,5 +9,7 @@ import { iSkill } from '../../interfaces/skill.interface';
   styleUrl: './skill.css',
 })
 export class Skill {
-  skill = input.required<iSkill[]>();
+  skill = input.required<iCategorySkill[]>();
+
+  protected readonly formatSkills = formatSkills;
 }

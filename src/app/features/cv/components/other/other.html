@@ -1,0 +1,10 @@
+<div class="mt-5">
+  <ul class="section-listnone">
+    @for (item of other(); track item.text) {
+      <li class="section-text">
+        {{ item.text }}:
+        <span class="section-textsoft">{{ item.description }}</span>
+      </li>
+    }
+  </ul>
+</div>

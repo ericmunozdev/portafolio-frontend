@@ -1,6 +1,7 @@
 export interface iProfile {
-  image: string;
-  title: string;
+  id: string;
+  webTitle: string;
   fullName: string;
-  description: string;
+  workPosition: string;
+  presentation: string;
 }

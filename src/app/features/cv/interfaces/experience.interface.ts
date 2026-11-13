@@ -1,8 +1,11 @@
+import { iSkill } from './skill.interface';
+
 export interface iExperience {
   company: string;
   role: string;
   startDate: string;
   endDate: string;
-  responsibilities: string[];
-  skills: string[];
+  responsibility: string;
+  collapse: boolean;
+  skills: iSkill[];
 }

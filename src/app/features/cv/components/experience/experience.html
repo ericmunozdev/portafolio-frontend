@@ -1,11 +1,16 @@
 <h2 class="section-title">Experiencia Profesional</h2>
 
-@for (job of experience(); track job) {
+@for (job of experience(); track job.company + job.startDate) {
   <div class="mb-4">
-    <h3 class="section-meta">{{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})</h3>
-    <p class="section-text mt-2">{{ job.responsibilities.join('. ') }}.</p>
-    <p class="section-textsoft mt-2">
-      <span class="underline decoration-solid">Tecnologías:</span> {{ job.skills.join(', ') }}.
-    </p>
+    <h3 class="section-meta">
+      {{ job.role }} - {{ job.company }} ({{ job.startDate }} - {{ job.endDate }})
+    </h3>
+    <p class="section-text mt-2">{{ job.responsibility }}</p>
+
+    @if (job.skills.length) {
+      <p class="section-textsoft mt-2">
+        <span class="underline decoration-solid">Tecnologías:</span> {{ formatSkills(job.skills) }}.
+      </p>
+    }
   </div>
 }

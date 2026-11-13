@@ -1,46 +1,43 @@
-<main class="min-h-dvh mx-auto flex flex-col bg-linear-to-b from-white to-gray-50 text-gray-700 antialiased">
+<main
+  class="min-h-dvh mx-auto flex flex-col bg-linear-to-b from-white to-gray-50 text-gray-700 antialiased"
+>
   <div class="grow space-y-12">
     <div class="max-w-3xl mx-auto px-10 py-10 bg-white shadow-sm">
       @if (cv()?.profile) {
         <app-profile [profile]="cv()!.profile"></app-profile>
       }
 
-      @if (cv()?.summary?.length) {
-        <app-summary [summary]="cv()!.summary"></app-summary>
-      }
-
       @if (cv()?.contact?.length) {
         <app-contact [contact]="cv()!.contact"></app-contact>
       }
 
-      @if (cv()?.skill?.length) {
-        <app-skill [skill]="cv()!.skill"></app-skill>
-      }
-
-      @if (cv()?.experience?.length) {
-        <app-experience [experience]="cv()!.experience"></app-experience>
+      @if (cv()?.categorySkill?.length) {
+        <app-skill [skill]="cv()!.categorySkill"></app-skill>
       }
 
       @if (cv()?.education?.length) {
         <app-education [education]="cv()!.education"></app-education>
       }
 
-      @if (cv()?.additional?.length || cv()?.language?.length || cv()?.condition?.length) {
+      @if (cv()?.experience?.length) {
+        <app-experience [experience]="cv()!.experience"></app-experience>
+      }
+
+      @if (cv()?.projectSkill?.length || cv()?.additionalSkill?.length || cv()?.other?.length) {
         <h2 class="section-title">Información Adicional</h2>
       }
 
-      @if (cv()?.additional?.length) {
-        <app-additional [additional]="cv()!.additional"></app-additional>
+      @if (cv()?.additionalSkill?.length) {
+        <app-additional-skill [additional]="cv()!.additionalSkill"></app-additional-skill>
       }
 
-      @if (cv()?.language?.length) {
-        <app-language [language]="cv()!.language"></app-language>
+      @if (cv()?.projectSkill?.length) {
+        <app-project-skill [projectSkill]="cv()!.projectSkill"></app-project-skill>
       }
 
-      @if (cv()?.condition?.length) {
-        <app-condition [condition]="cv()!.condition"></app-condition>
+      @if (cv()?.other?.length) {
+        <app-other [other]="cv()!.other"></app-other>
       }
-
     </div>
   </div>
 </main>

@@ -1,4 +1,5 @@
 export interface iSkill {
-  category: string;
-  items: string[];
+  icon: string | null;
+  name: string;
+  children: iSkill[];
 }

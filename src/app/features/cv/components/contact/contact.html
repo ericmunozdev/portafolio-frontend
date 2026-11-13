@@ -1,12 +1,18 @@
 <div class="mt-5">
   <!-- Texto -->
   <ul class="section-listnone">
-    @for (contacto of contact(); track $index) {
+    @for (contacto of sortedContact(); track contacto.typeName + contacto.value) {
       <li class="section-text">
-        {{ contacto.name }}: <a href="{{ contacto.value }}" class="link" target="_blank">{{ contacto.value }}</a>
-        <p class="section-textsoft">
-          <!-- <span class="underline decoration-solid">Subrayado:</span> {{ listado.join(', ') }}. -->
-        </p>
+        {{ contacto.displayName }}:
+
+        <a
+          [href]="getLink(contacto)"
+          class="link"
+          [target]="isExternal(contacto) ? '_blank' : null"
+          [rel]="isExternal(contacto) ? 'noopener noreferrer' : null"
+        >
+          {{ contacto.value }}
+        </a>
       </li>
     }
   </ul>

@@ -1,0 +1,16 @@
+<div class="mt-5">
+  <ul class="section-listnone">
+    @for (additional of additional(); track $index) {
+      <li class="section-text">
+        {{ additional.content }}
+
+        @if (additional.skills.length) {
+          <p class="section-textsoft">
+            <span class="underline decoration-solid">Tecnologías:</span>
+            {{ formatSkills(additional.skills) }}.
+          </p>
+        }
+      </li>
+    }
+  </ul>
+</div>

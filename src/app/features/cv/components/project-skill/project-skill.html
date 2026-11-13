@@ -1,0 +1,16 @@
+<div class="mt-5">
+  <ul class="section-listnone">
+    @for (project of projectSkill(); track $index) {
+      <li class="section-text">
+        {{ project.project }}
+
+        @if (project.skills.length) {
+          <p class="section-textsoft">
+            <span class="underline decoration-solid">Tecnologías:</span>
+            {{ formatSkills(project.skills) }}.
+          </p>
+        }
+      </li>
+    }
+  </ul>
+</div>

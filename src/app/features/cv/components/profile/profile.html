@@ -1,9 +1,5 @@
 <div class="flex items-center gap-4">
-
-  <img
-    src="assets/images/profile.png"
-    class="h-24 w-24 object-cover rounded-full"
-    alt="Profile">
+  <img src="assets/images/profile.png" class="h-24 w-24 object-cover rounded-full" alt="Profile" />
 
   <div>
     <h1 class="text-3xl font-bold tracking-tight">
@@ -11,10 +7,11 @@
     </h1>
 
     <p class="text-gray-700 text-base mt-1">
-      {{ profile().description }}
+      {{ profile().workPosition }}
     </p>
   </div>
-
 </div>
 
-<hr class="my-6">
+<hr class="my-6" />
+
+<p class="section-text mt-2">{{ profile().presentation }}</p>
