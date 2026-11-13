@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Datos personales del CV (no versionar)
+/public/assets/data/cv.json
+/public/assets/images/profile.png
