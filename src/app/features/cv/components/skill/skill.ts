@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iCategorySkill } from '../../interfaces/categorySkill.interface';
+import { iCategorySkill } from '../../../../core/domain/cv.model';
 import { formatSkills } from '../../utils/skill.utils';
 
 @Component({

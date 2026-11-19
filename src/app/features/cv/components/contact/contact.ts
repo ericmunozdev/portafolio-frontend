@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { iContact } from '../../interfaces/contact.interface';
+import { iContact } from '../../../../core/domain/cv.model';
 
 @Component({
   selector: 'app-contact',

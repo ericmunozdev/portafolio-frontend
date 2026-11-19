@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iOther } from '../../interfaces/other.interface';
+import { iOther } from '../../../../core/domain/cv.model';
 
 @Component({
   selector: 'app-other',

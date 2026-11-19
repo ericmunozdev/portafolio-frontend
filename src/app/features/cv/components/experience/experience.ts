@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iExperience } from '../../interfaces/experience.interface';
+import { iExperience } from '../../../../core/domain/cv.model';
 import { formatSkills } from '../../utils/skill.utils';
 
 @Component({

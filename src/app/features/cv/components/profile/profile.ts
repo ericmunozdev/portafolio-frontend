@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iProfile } from '../../interfaces/profile.interface';
+import { iProfile } from '../../../../core/domain/cv.model';
 
 @Component({
   selector: 'app-profile',
