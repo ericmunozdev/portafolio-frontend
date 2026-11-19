@@ -1,0 +1,4 @@
+{
+  "dataSource": "fallback",
+  "apiUrl": "https://localhost:7184/api/v1/"
+}
