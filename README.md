@@ -6,7 +6,7 @@
 ![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22.22+-5FA04E?logo=nodedotjs&logoColor=white)
 
-Aplicación SPA desarrollada con **Angular 22** que presenta un currículum profesional de forma dinámica. La interfaz está construida con **componentes standalone**, **signals** y **Tailwind CSS**, y toma todo su contenido desde un modelo JSON tipado que replica el contrato de la API del portafolio.
+Aplicación SPA desarrollada con **Angular 22** que presenta un currículum profesional de forma dinámica. Usa **componentes standalone**, **signals** y **Tailwind CSS**, y sigue una **arquitectura hexagonal ligera**: el dominio no sabe si los datos vienen de un JSON local, de una API REST o de una combinación con fallback, porque el adaptador se elige en tiempo de ejecución desde `public/config.json`.
 
 El objetivo del proyecto es servir como frontend del portafolio personal y, al mismo tiempo, aplicar buenas prácticas de Angular moderno: separación de contenido y presentación, componentes reutilizables, estado reactivo y un contrato de datos fuertemente tipado.
 
@@ -14,42 +14,50 @@ El objetivo del proyecto es servir como frontend del portafolio personal y, al m
 
 ## Características
 
-- Renderizado dinámico de todas las secciones del currículum desde un único archivo JSON.
+- Renderizado dinámico de todas las secciones del currículum desde un modelo tipado.
+- Arquitectura hexagonal: puerto `CVRepository`, adaptadores API/JSON/fallback y servicio de aplicación.
+- Fuente de datos seleccionable en runtime sin recompilar (`json`, `api` o `fallback`).
+- Fallback automático: intenta la API y cae al JSON si falla o no responde.
+- Estado reactivo con `signal`: `cv`, `isLoading` y `error`.
 - Componentes standalone independientes por sección, sin `NgModules`.
-- Estado reactivo con `signal` y `computed` para la carga y transformación de datos.
 - Habilidades organizadas por categoría y con jerarquía padre/hijo ilimitada.
-- Formateo recursivo de habilidades anidadas, por ejemplo `C# (.NET 6 | .NET 8)`.
+- Formateo recursivo de habilidades anidadas, por ejemplo `C# (.NET 6 | .NET 8 (ASP.NET Core | EF Core))`.
 - Contactos con enlaces `tel:`, `mailto:`, `url` y `whatsapp`, ordenados por posición.
-- Diseño responsive con Tailwind CSS.
-- Carga diferida de la página principal mediante `loadComponent`.
-- Título del documento generado a partir de los datos del perfil.
+- Diseño responsive con Tailwind CSS y carga diferida de la página principal.
+- Pruebas unitarias con un repositorio en memoria, sin mockear `HttpClient`.
 - Cabeceras de seguridad listas para hosting estático.
 
 ---
 
 ## Stack tecnológico
 
-| Tecnología         | Uso                                              |
-| ------------------ | ------------------------------------------------ |
-| Angular 22         | Framework de la SPA                              |
-| TypeScript 6       | Tipado estricto del modelo y los componentes     |
-| Tailwind CSS 4     | Estilos utilitarios y diseño responsive          |
-| Angular HttpClient | Carga del archivo de datos del currículum        |
-| Angular Signals    | Estado reactivo de la aplicación                 |
-| Vitest             | Runner de pruebas configurado mediante `ng test` |
-| Prettier           | Formato consistente del código                   |
+| Tecnología         | Uso                                                        |
+| ------------------ | ---------------------------------------------------------- |
+| Angular 22         | Framework de la SPA                                        |
+| TypeScript 6       | Tipado estricto del modelo y los componentes               |
+| Tailwind CSS 4     | Estilos utilitarios y diseño responsive                    |
+| Angular HttpClient | Implementación de los adaptadores JSON y API               |
+| Angular Signals    | Estado reactivo de la aplicación                           |
+| RxJS               | Composición del adaptador de fallback                      |
+| Vitest             | Runner de pruebas configurado mediante `ng test`           |
+| Prettier           | Formato consistente del código                             |
 
 ---
 
 ## Arquitectura
 
-La aplicación es una SPA sin backend propio: al iniciar, un servicio carga el currículum desde un JSON local y lo expone mediante un `signal` que alimenta la vista principal.
-
 ```mermaid
 flowchart LR
-    JSON[cv.json] --> Service[CVService]
-    Service -->|HttpClient| Signal[Signal iCV]
-    Signal --> Home[HomePage]
+    Config[public/config.json] --> Runtime[RuntimeConfig]
+    Runtime --> Provider[provideCVRepository]
+    Provider --> Port[CVRepository]
+    Port --> Json[CVJsonRepository]
+    Port --> Api[CVApiRepository]
+    Port --> Fallback[CVFallbackRepository]
+    Fallback --> Api
+    Fallback --> Json
+    Port --> Service[CVService]
+    Service --> Home[HomePage]
     Home --> Profile
     Home --> Contact
     Home --> Skill
@@ -60,31 +68,29 @@ flowchart LR
     Home --> Other
 ```
 
-### Flujo de renderizado
+### Flujo de datos
 
 ```text
-HTTP GET assets/data/cv.json
-        │
-        ▼
-CVService (signal<iCV | null>)
-        │
-        ▼
+config.json → RuntimeConfig (provideAppInitializer, antes del bootstrap)
+       │
+       ▼
+provideCVRepository (useFactory) elige el adaptador:
+   json     → CVJsonRepository
+   api      → CVApiRepository
+   fallback → CVFallbackRepository (API → JSON)
+       │
+       ▼
+CVService (signals: cv / isLoading / error)
+       │
+       ▼
 HomePage (effect para el título)
-        │
-        ├── app-profile
-        ├── app-contact
-        ├── app-skill
-        ├── app-education
-        ├── app-experience
-        ├── app-project-skill
-        ├── app-additional-skill
-        └── app-other
+       ├── app-profile      ├── app-experience
+       ├── app-contact      ├── app-project-skill
+       ├── app-skill        ├── app-additional-skill
+       ├── app-education    └── app-other
 ```
 
-1. `CVService` solicita el JSON y actualiza el signal `cv`.
-2. `HomePage` reacciona al cambio y compone las secciones con `@if` y `@for`.
-3. Cada componente recibe su parte del modelo mediante `input.required<T>()`.
-4. Los datos se transforman solo cuando es necesario, por ejemplo al ordenar contactos o al construir el árbol de habilidades.
+La regla de dependencias es unidireccional: `features` y `infrastructure` dependen de `core`, pero `core` no depende de ninguno de los dos. El puerto es una clase abstracta usada como token de inyección.
 
 ---
 
@@ -93,22 +99,33 @@ HomePage (effect para el título)
 ```text
 portafolio-frontend/
 ├── public/
-│   ├── _headers
-│   └── assets/
-│       ├── data/cv.json          # no versionado (datos personales)
-│       ├── icons/
-│       └── images/profile.png    # no versionado (dato personal)
+│   ├── _headers                    # seguridad + no-cache para config.json
+│   ├── config.json                 # fuente de datos en runtime
+│   ├── assets/data/cv.json         # no versionado (datos personales)
+│   └── assets/images/profile.png   # no versionado (dato personal)
 ├── src/
 │   ├── app/
+│   │   ├── core/
+│   │   │   ├── domain/cv.model.ts          # iCV y interfaces (sin Angular)
+│   │   │   ├── ports/cv.repository.ts      # puerto
+│   │   │   └── application/cv.service.ts   # servicio de aplicación
+│   │   ├── infrastructure/
+│   │   │   ├── cv-api-url.token.ts
+│   │   │   ├── cv-api.repository.ts
+│   │   │   ├── cv-json.repository.ts
+│   │   │   ├── cv-fallback.repository.ts
+│   │   │   ├── runtime-config.ts
+│   │   │   └── cv.provider.ts
 │   │   ├── features/cv/
 │   │   │   ├── components/
-│   │   │   ├── interfaces/
-│   │   │   ├── services/
 │   │   │   └── utils/
 │   │   ├── pages/home-page/
 │   │   ├── app.config.ts
 │   │   ├── app.routes.ts
 │   │   └── app.ts
+│   ├── testing/
+│   │   ├── cv-in-memory.repository.ts
+│   │   └── fixtures/cv.fixture.ts
 │   ├── main.ts
 │   └── styles.css
 ├── angular.json
@@ -118,9 +135,41 @@ portafolio-frontend/
 
 ---
 
+## Configuración de la fuente de datos
+
+`public/config.json` se sirve como archivo estático y se lee antes de arrancar la aplicación:
+
+```json
+{
+  "dataSource": "json",
+  "apiUrl": ""
+}
+```
+
+| `dataSource` | Adaptador seleccionado | Comportamiento |
+| ------------ | ---------------------- | -------------- |
+| `json`       | `CVJsonRepository`     | Lee `assets/data/cv.json` (valor por defecto). |
+| `api`        | `CVApiRepository`      | GET a `apiUrl` (URL completa del endpoint); falla si la API no responde. |
+| `fallback`   | `CVFallbackRepository` | Prueba esa misma URL con timeout de 5 s y cae al JSON. |
+
+`apiUrl` es la URL **completa** del recurso, no solo la base: el adaptador no añade sufijos. Está configurada con el endpoint de desarrollo:
+
+```json
+{
+  "dataSource": "fallback",
+  "apiUrl": "https://localhost:7184/api/v1/Curriculum/53aae2aa-acfc-4c70-b579-49059c4a441b"
+}
+```
+
+Cambia `dataSource` a `api` si quieres que un fallo de la API se refleje como error en lugar de usar el JSON local. Si `config.json` no existe o no es válido, se aplica la configuración por defecto (`json`). La cabecera `Cache-Control: no-cache` evita que el navegador conserve una configuración antigua.
+
+Para que `https://localhost:7184` funcione desde el navegador hay que cumplir dos requisitos del backend: confiar el certificado de desarrollo (`dotnet dev-certs https --trust`) y permitir CORS desde `http://localhost:4200`. Mientras tanto, `fallback` mantiene la página visible con el JSON local.
+
+---
+
 ## Modelo de datos del currículum
 
-El contenido se obtiene desde `public/assets/data/cv.json`. Cada sección tiene su interfaz en `src/app/features/cv/interfaces` y su componente asociado:
+Las interfaces viven en `src/app/core/domain/cv.model.ts`; `iCV` agrega las ocho secciones:
 
 | Sección JSON      | Componente        | Contenido                                                        |
 | ----------------- | ----------------- | ---------------------------------------------------------------- |
@@ -133,27 +182,24 @@ El contenido se obtiene desde `public/assets/data/cv.json`. Cada sección tiene 
 | `additionalSkill` | `AdditionalSkill` | Conocimientos adicionales.                                       |
 | `other`           | `Other`           | Información complementaria (idioma, modalidad, ubicación, etc.). |
 
-El modelo JSON replica el contrato de la API REST del repositorio `portafolio-backend`, lo que permite migrar el frontend al consumo directo de la API sin rediseñar la vista.
-
-### Habilidades jerárquicas
-
-Las habilidades pueden tener hijos de forma recursiva. La utilidad `formatSkills` en `src/app/features/cv/utils/skill.utils.ts` transforma el árbol en texto legible:
-
-```text
-C# (.NET 6 | .NET 8 (ASP.NET Core | EF Core))
-```
+El JSON local replica el contrato de la API REST del repositorio `portafolio-backend`, de modo que ambos adaptadores devuelven el mismo tipo `iCV`. Las habilidades pueden tener hijos de forma recursiva; la utilidad `formatSkills` en `src/app/features/cv/utils/skill.utils.ts` las transforma en texto legible.
 
 ---
 
 ## Decisiones de diseño
 
-- **Contenido separado de la vista:** toda la información vive en un JSON, por lo que actualizar el currículum no requiere recompilar componentes.
-- **Componentes standalone:** cada sección es independiente y declara sus propias dependencias.
-- **Signals:** el estado del currículum se gestiona con `signal`, evitando suscripciones manuales en la vista.
+- **Hexagonal ligera:** puerto + adaptadores + servicio de aplicación. No se añaden más capas porque sería sobreingeniería para un front; si el proyecto crece, se añade un puerto por agregado (`ProjectsRepository`, etc.).
+- **Dominio puro:** `core/domain` contiene solo interfaces, sin dependencias de Angular ni de HTTP.
+- **Inversión de dependencias:** `app.config.ts` decide qué adaptador se inyecta; `CVService` solo conoce `CVRepository`.
+- **Configuración en runtime:** `provideAppInitializer` lee `config.json` y un `useFactory` resuelve el puerto después, sin recompilar.
+- **Fallback compuesto:** el adaptador de fallback reutiliza los otros dos; el `timeout` evita esperar indefinidamente a una API caída.
 - **Contrato tipado:** las interfaces reflejan el JSON y el contrato de la API, lo que detecta errores en tiempo de compilación.
 - **Utilidades puras:** el formateo de habilidades está aislado en funciones reutilizables y fáciles de probar.
-- **Privacidad por defecto:** los archivos con datos personales no se versionan; se proporcionan en el entorno local o de despliegue.
+- **Testabilidad:** `CVInMemoryRepository` permite probar el servicio de aplicación sin `HttpClient`.
+- **Signals:** el estado (`cv`, `isLoading`, `error`) se expone como señales de solo lectura.
+- **Privacidad por defecto:** `cv.json` y `profile.png` no se versionan por contener datos personales; los tests usan un fixture anonimizado.
 - **Seguridad:** cabeceras de seguridad en `public/_headers` y controles de seguridad en el repositorio (CodeQL, Dependabot, auditoría de dependencias y protección ante exposición de secretos).
+- **Evolución:** `rxResource`/`httpResource` están disponibles en Angular 22. `rxResource` puede sustituir la suscripción manual manteniendo el puerto; `httpResource` conviene usarlo solo dentro de los adaptadores para no acoplar la capa de aplicación a HTTP.
 
 ---
 
@@ -172,14 +218,14 @@ npm install
 
 ### 2. Preparar los datos locales
 
-Crea los siguientes archivos, que no se versionan por contener información personal:
+Crea estos archivos, que no se versionan por contener información personal:
 
 ```text
 public/assets/data/cv.json
 public/assets/images/profile.png
 ```
 
-El JSON debe respetar las interfaces definidas en `src/app/features/cv/interfaces`.
+El JSON debe respetar `iCV` en `src/app/core/domain/cv.model.ts`. `public/config.json` ya está incluido y por defecto usa el JSON local.
 
 ### 3. Ejecutar el servidor de desarrollo
 
@@ -187,7 +233,7 @@ El JSON debe respetar las interfaces definidas en `src/app/features/cv/interface
 npm start
 ```
 
-La aplicación estará disponible en `http://localhost:4200/` y se recargará automáticamente al modificar los archivos fuente.
+La aplicación estará disponible en `http://localhost:4200/`.
 
 ---
 
@@ -197,23 +243,27 @@ La aplicación estará disponible en `http://localhost:4200/` y se recargará au
 npm run build
 ```
 
-Los artefactos de producción se generan en `dist/portafolio-frontend/browser`. El archivo `_headers` se copia automáticamente a la raíz del build.
+Los artefactos se generan en `dist/portafolio-frontend/browser`. `config.json` y `_headers` se copian automáticamente desde `public/`.
 
 ---
 
 ## Pruebas
 
 ```bash
-npm test
+npm test -- --watch=false
 ```
 
-Vitest está configurado a través del builder de Angular. La cobertura de pruebas está pendiente (ver estado del proyecto).
+| Archivo | Qué cubre |
+| ------- | --------- |
+| `cv.service.spec.ts` | Estado `cv` / `isLoading` / `error` con `CVInMemoryRepository`, sin `HttpClient`. |
+| `cv-fallback.repository.spec.ts` | Caída al JSON cuando la API falla y uso de la API cuando responde. |
+| `cv.provider.spec.ts` | Selección del adaptador según `dataSource`. |
 
 ---
 
 ## Despliegue
 
-La aplicación se puede desplegar en cualquier hosting estático. Para Cloudflare Pages o Netlify:
+Cualquier hosting estático sirve; `config.json` se puede cambiar en el despliegue sin reconstruir el bundle.
 
 | Configuración    | Valor                              |
 | ---------------- | ---------------------------------- |
@@ -222,9 +272,9 @@ La aplicación se puede desplegar en cualquier hosting estático. Para Cloudflar
 
 Consideraciones:
 
-- `_headers` es compatible con Cloudflare Pages y Netlify.
-- Los archivos `cv.json` y `profile.png` deben existir durante el build. Si el despliegue se ejecuta desde el repositorio, deben generarse en un paso previo o inyectarse desde secretos del CI.
-- Al ser una SPA, conviene redirigir las rutas desconocidas a `index.html` si se agregan rutas adicionales.
+- `_headers` es compatible con Cloudflare Pages y Netlify e incluye `no-cache` para `config.json`.
+- `cv.json` y `profile.png` deben existir durante el build, o generarse desde secretos del CI.
+- Al ser una SPA, conviene redirigir las rutas desconocidas a `index.html` si se añaden rutas.
 
 ---
 
@@ -241,13 +291,16 @@ Consideraciones:
 ## Estado del proyecto
 
 - [x] Renderizado dinámico del currículum desde JSON tipado.
+- [x] Arquitectura hexagonal (puerto + adaptadores + servicio de aplicación).
+- [x] Selección de fuente en runtime mediante `config.json`.
+- [x] Fallback automático API → JSON.
 - [x] Componentes standalone con signals.
 - [x] Habilidades jerárquicas con formato recursivo.
 - [x] Contactos con enlaces según su tipo.
 - [x] Diseño responsive con Tailwind CSS.
 - [x] Carga diferida de la página principal.
 - [x] Cabeceras de seguridad para hosting estático.
-- [ ] Pruebas unitarias.
-- [ ] Consumo directo de la API REST del backend.
+- [x] Pruebas unitarias con repositorio en memoria.
+- [x] Consumo de la API REST del backend (endpoint configurado en `config.json`).
 - [ ] Expandir/colapsar experiencias.
 - [ ] Iconos para contactos y habilidades.

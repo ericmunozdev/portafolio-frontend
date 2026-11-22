@@ -1,7 +1,7 @@
 import { Component, inject, effect } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
-import { CVService } from '../../features/cv/services/cv.service';
+import { CVService } from '../../core/application/cv.service';
 
 import { AdditionalSkill } from '../../features/cv/components/additional-skill/additional-skill';
 import { Contact } from '../../features/cv/components/contact/contact';
@@ -23,6 +23,8 @@ export class HomePage {
   private titleService = inject(Title);
 
   cv = this.cvService.cv;
+  isLoading = this.cvService.isLoading;
+  error = this.cvService.error;
 
   constructor() {
     effect(() => {

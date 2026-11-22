@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iAdditionalSkill } from '../../interfaces/additionalSkill.interface';
+import { iAdditionalSkill } from '../../../../core/domain/cv.model';
 import { formatSkills } from '../../utils/skill.utils';
 
 @Component({

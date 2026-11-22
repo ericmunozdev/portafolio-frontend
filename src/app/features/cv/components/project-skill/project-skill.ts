@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { iProjectSkill } from '../../interfaces/projectSkill.interface';
+import { iProjectSkill } from '../../../../core/domain/cv.model';
 import { formatSkills } from '../../utils/skill.utils';
 
 @Component({

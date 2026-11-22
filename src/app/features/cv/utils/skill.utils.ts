@@ -1,8 +1,8 @@
-import { iSkill } from '../interfaces/skill.interface';
+import { iSkill } from '../../../core/domain/cv.model';
 
 /**
  * Formatea una habilidad y sus dependencias.
- * Ej: { name: 'C#', children: [{ name: '.NET 6' }, { name: '.NET 8', children: [{ name: 'Otro 1' }, { name: 'Otro 2' }] }] } -> 'C# (.NET 6 | .NET 8 (Otro 1 | Otro 2))'
+ * Ej: { name: 'C#', children: [{ name: '.NET 6' }, { name: '.NET 8', children: [{ name: 'ASP.NET Core' }, { name: 'EF Core' }] }] } -> 'C# (.NET 6 | .NET 8 (ASP.NET Core | EF Core))'
  */
 export function formatSkill(skill: iSkill): string {
   if (!skill.children?.length) {
