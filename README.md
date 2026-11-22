@@ -1,12 +1,12 @@
 # Portafolio Frontend
 
-![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-20.19+-5FA04E?logo=nodedotjs&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22.22+-5FA04E?logo=nodedotjs&logoColor=white)
 
-Aplicación SPA desarrollada con **Angular 21** que presenta un currículum profesional de forma dinámica. La interfaz está construida con **componentes standalone**, **signals** y **Tailwind CSS**, y toma todo su contenido desde un modelo JSON tipado que replica el contrato de la API del portafolio.
+Aplicación SPA desarrollada con **Angular 22** que presenta un currículum profesional de forma dinámica. La interfaz está construida con **componentes standalone**, **signals** y **Tailwind CSS**, y toma todo su contenido desde un modelo JSON tipado que replica el contrato de la API del portafolio.
 
 El objetivo del proyecto es servir como frontend del portafolio personal y, al mismo tiempo, aplicar buenas prácticas de Angular moderno: separación de contenido y presentación, componentes reutilizables, estado reactivo y un contrato de datos fuertemente tipado.
 
@@ -31,8 +31,8 @@ El objetivo del proyecto es servir como frontend del portafolio personal y, al m
 
 | Tecnología         | Uso                                              |
 | ------------------ | ------------------------------------------------ |
-| Angular 21         | Framework de la SPA                              |
-| TypeScript 5.9     | Tipado estricto del modelo y los componentes     |
+| Angular 22         | Framework de la SPA                              |
+| TypeScript 6       | Tipado estricto del modelo y los componentes     |
 | Tailwind CSS 4     | Estilos utilitarios y diseño responsive          |
 | Angular HttpClient | Carga del archivo de datos del currículum        |
 | Angular Signals    | Estado reactivo de la aplicación                 |
@@ -153,7 +153,7 @@ C# (.NET 6 | .NET 8 (ASP.NET Core | EF Core))
 - **Contrato tipado:** las interfaces reflejan el JSON y el contrato de la API, lo que detecta errores en tiempo de compilación.
 - **Utilidades puras:** el formateo de habilidades está aislado en funciones reutilizables y fáciles de probar.
 - **Privacidad por defecto:** los archivos con datos personales no se versionan; se proporcionan en el entorno local o de despliegue.
-- **Seguridad:** `public/_headers` define políticas de seguridad para el hosting estático.
+- **Seguridad:** cabeceras de seguridad en `public/_headers` y controles de seguridad en el repositorio (CodeQL, Dependabot, auditoría de dependencias y protección ante exposición de secretos).
 
 ---
 
@@ -161,7 +161,7 @@ C# (.NET 6 | .NET 8 (ASP.NET Core | EF Core))
 
 ### Requisitos
 
-- [Node.js](https://nodejs.org/) 20.19+ o 22.12+
+- [Node.js](https://nodejs.org/) 22.22+ o 24+
 - npm 11+
 
 ### 1. Instalar dependencias
@@ -225,6 +225,16 @@ Consideraciones:
 - `_headers` es compatible con Cloudflare Pages y Netlify.
 - Los archivos `cv.json` y `profile.png` deben existir durante el build. Si el despliegue se ejecuta desde el repositorio, deben generarse en un paso previo o inyectarse desde secretos del CI.
 - Al ser una SPA, conviene redirigir las rutas desconocidas a `index.html` si se agregan rutas adicionales.
+
+---
+
+## Seguridad y CI
+
+- **CodeQL**: análisis estático de TypeScript/JavaScript en PRs, push a `main` y ejecución mensual.
+- **Dependabot**: actualizaciones mensuales de dependencias npm y GitHub Actions, además de alertas de seguridad.
+- **Auditoría de dependencias**: `npm audit` se ejecuta en el workflow de seguridad y deja el reporte como artifact/resumen.
+- **Secret scanning y push protection**: habilitados a nivel de repositorio para detectar credenciales y evitar su subida accidental.
+- **CI**: build y tests (cuando existan) en GitHub Actions con permisos mínimos por job.
 
 ---
 
