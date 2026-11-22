@@ -1,0 +1,127 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Día 1 de cada mes a las 06:17 UTC (minuto no redondo para evitar colas).
+    - cron: '17 6 1 * *'
+
+permissions:
+  contents: read
+
+jobs:
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+        with:
+          fail-on: none
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        shell: bash
+        run: |
+          npm audit --json > npm-audit.json || true
+          node <<'NODE'
+          const fs = require('node:fs');
+          let report = {};
+          try {
+            report = JSON.parse(fs.readFileSync('npm-audit.json', 'utf8'));
+          } catch {
+            fs.appendFileSync(
+              process.env.GITHUB_STEP_SUMMARY,
+              '### npm audit\n\nNo se pudo interpretar el informe JSON.\n'
+            );
+            process.exit(0);
+          }
+          const counts = report.metadata?.vulnerabilities ?? {};
+          const rows = ['critical', 'high', 'moderate', 'low'].map(
+            (severity) => `| ${severity} | ${counts[severity] ?? 0} |`
+          );
+          fs.appendFileSync(
+            process.env.GITHUB_STEP_SUMMARY,
+            ['### npm audit', '', '| Severidad | Número |', '| --- | ---: |', ...rows, ''].join('\n')
+          );
+          NODE
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: npm-audit
+          path: npm-audit.json
+          if-no-files-found: warn
+
+  ci:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        shell: bash
+        run: |
+          if [ -n "$(find src -type f \( -name '*.spec.ts' -o -name '*.test.ts' \) -print -quit)" ]; then
+            npm test -- --watch=false
+          else
+            echo "No hay archivos *.spec.ts ni *.test.ts; se omiten las pruebas."
+            echo "### Tests" >> "$GITHUB_STEP_SUMMARY"
+            echo "Omitidos: no hay archivos de prueba en src/." >> "$GITHUB_STEP_SUMMARY"
+          fi
