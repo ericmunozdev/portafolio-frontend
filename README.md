@@ -1,10 +1,10 @@
 # Portafolio Frontend
 
-![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-22.22+-5FA04E?logo=nodedotjs&logoColor=white)
+![Angular](badges/angular.svg)
+![TypeScript](badges/typescript.svg)
+![Tailwind CSS](badges/tailwind.svg)
+![Vitest](badges/vitest.svg)
+![Node.js](badges/nodejs.svg)
 
 Aplicación SPA desarrollada con **Angular 22** que presenta un currículum profesional de forma dinámica. Usa **componentes standalone**, **signals** y **Tailwind CSS**, y sigue una **arquitectura hexagonal ligera**: el dominio no sabe si los datos vienen de un JSON local, de una API REST o de una combinación con fallback, porque el adaptador se elige en tiempo de ejecución desde `public/config.json`.
 
